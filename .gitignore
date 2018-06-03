@@ -29,6 +29,7 @@ applog
 # CMake
 cmake-build-debug/
 cmake-build-release/
+/target/
 
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml

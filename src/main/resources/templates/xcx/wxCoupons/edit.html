@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="coupons_id" name="coupons_id" th:value="${wxCoupons.coupons_id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">优惠券名称：</label>
+								<div class="col-sm-8">
+									<input id="couponsName" name="couponsName" th:value="${wxCoupons.couponsName}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">优惠券类型：</label>
+								<div class="col-sm-8">
+									<input id="couponsType" name="couponsType" th:value="${wxCoupons.couponsType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">优惠券面额：</label>
+								<div class="col-sm-8">
+									<input id="couponsAmount" name="couponsAmount" th:value="${wxCoupons.couponsAmount}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">背景图片：</label>
+								<div class="col-sm-8">
+									<input id="backgroundImg" name="backgroundImg" th:value="${wxCoupons.backgroundImg}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">优惠券描述：</label>
+								<div class="col-sm-8">
+									<input id="couponsDesc" name="couponsDesc" th:value="${wxCoupons.couponsDesc}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">最低消费：</label>
+								<div class="col-sm-8">
+									<input id="minExpense" name="minExpense" th:value="${wxCoupons.minExpense}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">有效期开始时间：</label>
+								<div class="col-sm-8">
+									<input id="startTime" name="startTime" th:value="${wxCoupons.startTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">有效期结束时间：</label>
+								<div class="col-sm-8">
+									<input id="endTime" name="endTime" th:value="${wxCoupons.endTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">状态，1启用，0禁用：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" th:value="${wxCoupons.status}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">：</label>
+								<div class="col-sm-8">
+									<input id="createTime" name="createTime" th:value="${wxCoupons.createTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">：</label>
+								<div class="col-sm-8">
+									<input id="updateTime" name="updateTime" th:value="${wxCoupons.updateTime}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/xcx/wxCoupons/edit.js">
+	</script>
+</body>
+</html>
