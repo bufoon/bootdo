@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxDeliveryDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxDeliveryDO">
+		select `delivery_id`,`province_code`,`province_name`,`city_code`,`city_name`,`district_code`,`district_name`,`detail_address`,`user_id`,`is_default`,`delivery_name`,`delivery_desc`,`delivery_mobile`,`delivery_mobile_standby`,`remarks`,`create_time`,`update_time` from t_wx_delivery where delivery_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxDeliveryDO">
+		select `delivery_id`,`province_code`,`province_name`,`city_code`,`city_name`,`district_code`,`district_name`,`detail_address`,`user_id`,`is_default`,`delivery_name`,`delivery_desc`,`delivery_mobile`,`delivery_mobile_standby`,`remarks`,`create_time`,`update_time` from t_wx_delivery
+        <where>  
+		  		  <if test="deliveryId != null and deliveryId != ''"> and delivery_id = #{deliveryId} </if>
+		  		  <if test="provinceCode != null and provinceCode != ''"> and province_code = #{provinceCode} </if>
+		  		  <if test="provinceName != null and provinceName != ''"> and province_name = #{provinceName} </if>
+		  		  <if test="cityCode != null and cityCode != ''"> and city_code = #{cityCode} </if>
+		  		  <if test="cityName != null and cityName != ''"> and city_name = #{cityName} </if>
+		  		  <if test="districtCode != null and districtCode != ''"> and district_code = #{districtCode} </if>
+		  		  <if test="districtName != null and districtName != ''"> and district_name = #{districtName} </if>
+		  		  <if test="detailAddress != null and detailAddress != ''"> and detail_address = #{detailAddress} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="isDefault != null and isDefault != ''"> and is_default = #{isDefault} </if>
+		  		  <if test="deliveryName != null and deliveryName != ''"> and delivery_name = #{deliveryName} </if>
+		  		  <if test="deliveryDesc != null and deliveryDesc != ''"> and delivery_desc = #{deliveryDesc} </if>
+		  		  <if test="deliveryMobile != null and deliveryMobile != ''"> and delivery_mobile = #{deliveryMobile} </if>
+		  		  <if test="deliveryMobileStandby != null and deliveryMobileStandby != ''"> and delivery_mobile_standby = #{deliveryMobileStandby} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by delivery_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_delivery
+		 <where>  
+		  		  <if test="deliveryId != null and deliveryId != ''"> and delivery_id = #{deliveryId} </if>
+		  		  <if test="provinceCode != null and provinceCode != ''"> and province_code = #{provinceCode} </if>
+		  		  <if test="provinceName != null and provinceName != ''"> and province_name = #{provinceName} </if>
+		  		  <if test="cityCode != null and cityCode != ''"> and city_code = #{cityCode} </if>
+		  		  <if test="cityName != null and cityName != ''"> and city_name = #{cityName} </if>
+		  		  <if test="districtCode != null and districtCode != ''"> and district_code = #{districtCode} </if>
+		  		  <if test="districtName != null and districtName != ''"> and district_name = #{districtName} </if>
+		  		  <if test="detailAddress != null and detailAddress != ''"> and detail_address = #{detailAddress} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="isDefault != null and isDefault != ''"> and is_default = #{isDefault} </if>
+		  		  <if test="deliveryName != null and deliveryName != ''"> and delivery_name = #{deliveryName} </if>
+		  		  <if test="deliveryDesc != null and deliveryDesc != ''"> and delivery_desc = #{deliveryDesc} </if>
+		  		  <if test="deliveryMobile != null and deliveryMobile != ''"> and delivery_mobile = #{deliveryMobile} </if>
+		  		  <if test="deliveryMobileStandby != null and deliveryMobileStandby != ''"> and delivery_mobile_standby = #{deliveryMobileStandby} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxDeliveryDO">
+		insert into t_wx_delivery
+		(
+			`delivery_id`, 
+			`province_code`, 
+			`province_name`, 
+			`city_code`, 
+			`city_name`, 
+			`district_code`, 
+			`district_name`, 
+			`detail_address`, 
+			`user_id`, 
+			`is_default`, 
+			`delivery_name`, 
+			`delivery_desc`, 
+			`delivery_mobile`, 
+			`delivery_mobile_standby`, 
+			`remarks`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{deliveryId}, 
+			#{provinceCode}, 
+			#{provinceName}, 
+			#{cityCode}, 
+			#{cityName}, 
+			#{districtCode}, 
+			#{districtName}, 
+			#{detailAddress}, 
+			#{userId}, 
+			#{isDefault}, 
+			#{deliveryName}, 
+			#{deliveryDesc}, 
+			#{deliveryMobile}, 
+			#{deliveryMobileStandby}, 
+			#{remarks}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxDeliveryDO">
+		update t_wx_delivery 
+		<set>
+			<if test="provinceCode != null">`province_code` = #{provinceCode}, </if>
+			<if test="provinceName != null">`province_name` = #{provinceName}, </if>
+			<if test="cityCode != null">`city_code` = #{cityCode}, </if>
+			<if test="cityName != null">`city_name` = #{cityName}, </if>
+			<if test="districtCode != null">`district_code` = #{districtCode}, </if>
+			<if test="districtName != null">`district_name` = #{districtName}, </if>
+			<if test="detailAddress != null">`detail_address` = #{detailAddress}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="isDefault != null">`is_default` = #{isDefault}, </if>
+			<if test="deliveryName != null">`delivery_name` = #{deliveryName}, </if>
+			<if test="deliveryDesc != null">`delivery_desc` = #{deliveryDesc}, </if>
+			<if test="deliveryMobile != null">`delivery_mobile` = #{deliveryMobile}, </if>
+			<if test="deliveryMobileStandby != null">`delivery_mobile_standby` = #{deliveryMobileStandby}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where delivery_id = #{deliveryId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_delivery where delivery_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_delivery where delivery_id in 
+		<foreach item="deliveryId" collection="array" open="(" separator="," close=")">
+			#{deliveryId}
+		</foreach>
+	</delete>
+
+</mapper>

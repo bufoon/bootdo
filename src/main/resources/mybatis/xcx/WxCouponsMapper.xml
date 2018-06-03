@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxCouponsDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxCouponsDO">
+		select `coupons_id`,`coupons_name`,`coupons_type`,`coupons_amount`,`background_img`,`coupons_desc`,`min_expense`,`start_time`,`end_time`,`status`,`create_time`,`update_time` from t_wx_coupons where coupons_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxCouponsDO">
+		select `coupons_id`,`coupons_name`,`coupons_type`,`coupons_amount`,`background_img`,`coupons_desc`,`min_expense`,`start_time`,`end_time`,`status`,`create_time`,`update_time` from t_wx_coupons
+        <where>  
+		  		  <if test="couponsId != null and couponsId != ''"> and coupons_id = #{couponsId} </if>
+		  		  <if test="couponsName != null and couponsName != ''"> and coupons_name = #{couponsName} </if>
+		  		  <if test="couponsType != null and couponsType != ''"> and coupons_type = #{couponsType} </if>
+		  		  <if test="couponsAmount != null and couponsAmount != ''"> and coupons_amount = #{couponsAmount} </if>
+		  		  <if test="backgroundImg != null and backgroundImg != ''"> and background_img = #{backgroundImg} </if>
+		  		  <if test="couponsDesc != null and couponsDesc != ''"> and coupons_desc = #{couponsDesc} </if>
+		  		  <if test="minExpense != null and minExpense != ''"> and min_expense = #{minExpense} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by coupons_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_coupons
+		 <where>  
+		  		  <if test="couponsId != null and couponsId != ''"> and coupons_id = #{couponsId} </if>
+		  		  <if test="couponsName != null and couponsName != ''"> and coupons_name = #{couponsName} </if>
+		  		  <if test="couponsType != null and couponsType != ''"> and coupons_type = #{couponsType} </if>
+		  		  <if test="couponsAmount != null and couponsAmount != ''"> and coupons_amount = #{couponsAmount} </if>
+		  		  <if test="backgroundImg != null and backgroundImg != ''"> and background_img = #{backgroundImg} </if>
+		  		  <if test="couponsDesc != null and couponsDesc != ''"> and coupons_desc = #{couponsDesc} </if>
+		  		  <if test="minExpense != null and minExpense != ''"> and min_expense = #{minExpense} </if>
+		  		  <if test="startTime != null and startTime != ''"> and start_time = #{startTime} </if>
+		  		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxCouponsDO">
+		insert into t_wx_coupons
+		(
+			`coupons_id`, 
+			`coupons_name`, 
+			`coupons_type`, 
+			`coupons_amount`, 
+			`background_img`, 
+			`coupons_desc`, 
+			`min_expense`, 
+			`start_time`, 
+			`end_time`, 
+			`status`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{couponsId}, 
+			#{couponsName}, 
+			#{couponsType}, 
+			#{couponsAmount}, 
+			#{backgroundImg}, 
+			#{couponsDesc}, 
+			#{minExpense}, 
+			#{startTime}, 
+			#{endTime}, 
+			#{status}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxCouponsDO">
+		update t_wx_coupons 
+		<set>
+			<if test="couponsName != null">`coupons_name` = #{couponsName}, </if>
+			<if test="couponsType != null">`coupons_type` = #{couponsType}, </if>
+			<if test="couponsAmount != null">`coupons_amount` = #{couponsAmount}, </if>
+			<if test="backgroundImg != null">`background_img` = #{backgroundImg}, </if>
+			<if test="couponsDesc != null">`coupons_desc` = #{couponsDesc}, </if>
+			<if test="minExpense != null">`min_expense` = #{minExpense}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where coupons_id = #{couponsId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_coupons where coupons_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_coupons where coupons_id in 
+		<foreach item="couponsId" collection="array" open="(" separator="," close=")">
+			#{couponsId}
+		</foreach>
+	</delete>
+
+</mapper>

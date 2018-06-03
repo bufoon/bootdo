@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxCartDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxCartDO">
+		select `cart_id`,`user_id`,`goods_id`,`goods_count`,`goods_attr_id`,`status`,`create_time`,`update_time` from t_wx_cart where cart_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxCartDO">
+		select `cart_id`,`user_id`,`goods_id`,`goods_count`,`goods_attr_id`,`status`,`create_time`,`update_time` from t_wx_cart
+        <where>  
+		  		  <if test="cartId != null and cartId != ''"> and cart_id = #{cartId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="goodsId != null and goodsId != ''"> and goods_id = #{goodsId} </if>
+		  		  <if test="goodsCount != null and goodsCount != ''"> and goods_count = #{goodsCount} </if>
+		  		  <if test="goodsAttrId != null and goodsAttrId != ''"> and goods_attr_id = #{goodsAttrId} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by cart_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_cart
+		 <where>  
+		  		  <if test="cartId != null and cartId != ''"> and cart_id = #{cartId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="goodsId != null and goodsId != ''"> and goods_id = #{goodsId} </if>
+		  		  <if test="goodsCount != null and goodsCount != ''"> and goods_count = #{goodsCount} </if>
+		  		  <if test="goodsAttrId != null and goodsAttrId != ''"> and goods_attr_id = #{goodsAttrId} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxCartDO">
+		insert into t_wx_cart
+		(
+			`cart_id`, 
+			`user_id`, 
+			`goods_id`, 
+			`goods_count`, 
+			`goods_attr_id`, 
+			`status`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{cartId}, 
+			#{userId}, 
+			#{goodsId}, 
+			#{goodsCount}, 
+			#{goodsAttrId}, 
+			#{status}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxCartDO">
+		update t_wx_cart 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="goodsId != null">`goods_id` = #{goodsId}, </if>
+			<if test="goodsCount != null">`goods_count` = #{goodsCount}, </if>
+			<if test="goodsAttrId != null">`goods_attr_id` = #{goodsAttrId}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where cart_id = #{cartId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_cart where cart_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_cart where cart_id in 
+		<foreach item="cartId" collection="array" open="(" separator="," close=")">
+			#{cartId}
+		</foreach>
+	</delete>
+
+</mapper>

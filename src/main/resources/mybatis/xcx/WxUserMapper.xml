@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxUserDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxUserDO">
+		select `user_id`,`phone_number`,`nick_name`,`avatar_url`,`gender`,`city`,`province`,`country`,`language`,`open_id`,`session_key`,`create_time`,`update_time`,`remarks`,`status`,`union_id` from t_wx_user where user_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxUserDO">
+		select `user_id`,`phone_number`,`nick_name`,`avatar_url`,`gender`,`city`,`province`,`country`,`language`,`open_id`,`session_key`,`create_time`,`update_time`,`remarks`,`status`,`union_id` from t_wx_user
+        <where>  
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="phoneNumber != null and phoneNumber != ''"> and phone_number = #{phoneNumber} </if>
+		  		  <if test="nickName != null and nickName != ''"> and nick_name = #{nickName} </if>
+		  		  <if test="avatarUrl != null and avatarUrl != ''"> and avatar_url = #{avatarUrl} </if>
+		  		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  		  <if test="country != null and country != ''"> and country = #{country} </if>
+		  		  <if test="language != null and language != ''"> and language = #{language} </if>
+		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
+		  		  <if test="sessionKey != null and sessionKey != ''"> and session_key = #{sessionKey} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="unionId != null and unionId != ''"> and union_id = #{unionId} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by user_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_user
+		 <where>  
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="phoneNumber != null and phoneNumber != ''"> and phone_number = #{phoneNumber} </if>
+		  		  <if test="nickName != null and nickName != ''"> and nick_name = #{nickName} </if>
+		  		  <if test="avatarUrl != null and avatarUrl != ''"> and avatar_url = #{avatarUrl} </if>
+		  		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  		  <if test="country != null and country != ''"> and country = #{country} </if>
+		  		  <if test="language != null and language != ''"> and language = #{language} </if>
+		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
+		  		  <if test="sessionKey != null and sessionKey != ''"> and session_key = #{sessionKey} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="unionId != null and unionId != ''"> and union_id = #{unionId} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxUserDO">
+		insert into t_wx_user
+		(
+			`user_id`, 
+			`phone_number`, 
+			`nick_name`, 
+			`avatar_url`, 
+			`gender`, 
+			`city`, 
+			`province`, 
+			`country`, 
+			`language`, 
+			`open_id`, 
+			`session_key`, 
+			`create_time`, 
+			`update_time`, 
+			`remarks`, 
+			`status`, 
+			`union_id`
+		)
+		values
+		(
+			#{userId}, 
+			#{phoneNumber}, 
+			#{nickName}, 
+			#{avatarUrl}, 
+			#{gender}, 
+			#{city}, 
+			#{province}, 
+			#{country}, 
+			#{language}, 
+			#{openId}, 
+			#{sessionKey}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{remarks}, 
+			#{status}, 
+			#{unionId}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxUserDO">
+		update t_wx_user 
+		<set>
+			<if test="phoneNumber != null">`phone_number` = #{phoneNumber}, </if>
+			<if test="nickName != null">`nick_name` = #{nickName}, </if>
+			<if test="avatarUrl != null">`avatar_url` = #{avatarUrl}, </if>
+			<if test="gender != null">`gender` = #{gender}, </if>
+			<if test="city != null">`city` = #{city}, </if>
+			<if test="province != null">`province` = #{province}, </if>
+			<if test="country != null">`country` = #{country}, </if>
+			<if test="language != null">`language` = #{language}, </if>
+			<if test="openId != null">`open_id` = #{openId}, </if>
+			<if test="sessionKey != null">`session_key` = #{sessionKey}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="unionId != null">`union_id` = #{unionId}</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_user where user_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_user where user_id in 
+		<foreach item="userId" collection="array" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</delete>
+
+</mapper>

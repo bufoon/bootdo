@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxOrderDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxOrderDO">
+		select `order_id`,`order_no`,`order_price`,`order_status`,`delivery_id`,`coupon_id`,`coupon_amount`,`pay_type`,`remarks`,`pay_time`,`finished_time`,`user_id`,`create_time`,`update_time` from t_wx_order where order_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxOrderDO">
+		select `order_id`,`order_no`,`order_price`,`order_status`,`delivery_id`,`coupon_id`,`coupon_amount`,`pay_type`,`remarks`,`pay_time`,`finished_time`,`user_id`,`create_time`,`update_time` from t_wx_order
+        <where>  
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="orderPrice != null and orderPrice != ''"> and order_price = #{orderPrice} </if>
+		  		  <if test="orderStatus != null and orderStatus != ''"> and order_status = #{orderStatus} </if>
+		  		  <if test="deliveryId != null and deliveryId != ''"> and delivery_id = #{deliveryId} </if>
+		  		  <if test="couponId != null and couponId != ''"> and coupon_id = #{couponId} </if>
+		  		  <if test="couponAmount != null and couponAmount != ''"> and coupon_amount = #{couponAmount} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="payTime != null and payTime != ''"> and pay_time = #{payTime} </if>
+		  		  <if test="finishedTime != null and finishedTime != ''"> and finished_time = #{finishedTime} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by order_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_order
+		 <where>  
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="orderPrice != null and orderPrice != ''"> and order_price = #{orderPrice} </if>
+		  		  <if test="orderStatus != null and orderStatus != ''"> and order_status = #{orderStatus} </if>
+		  		  <if test="deliveryId != null and deliveryId != ''"> and delivery_id = #{deliveryId} </if>
+		  		  <if test="couponId != null and couponId != ''"> and coupon_id = #{couponId} </if>
+		  		  <if test="couponAmount != null and couponAmount != ''"> and coupon_amount = #{couponAmount} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="payTime != null and payTime != ''"> and pay_time = #{payTime} </if>
+		  		  <if test="finishedTime != null and finishedTime != ''"> and finished_time = #{finishedTime} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxOrderDO">
+		insert into t_wx_order
+		(
+			`order_id`, 
+			`order_no`, 
+			`order_price`, 
+			`order_status`, 
+			`delivery_id`, 
+			`coupon_id`, 
+			`coupon_amount`, 
+			`pay_type`, 
+			`remarks`, 
+			`pay_time`, 
+			`finished_time`, 
+			`user_id`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{orderId}, 
+			#{orderNo}, 
+			#{orderPrice}, 
+			#{orderStatus}, 
+			#{deliveryId}, 
+			#{couponId}, 
+			#{couponAmount}, 
+			#{payType}, 
+			#{remarks}, 
+			#{payTime}, 
+			#{finishedTime}, 
+			#{userId}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxOrderDO">
+		update t_wx_order 
+		<set>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="orderPrice != null">`order_price` = #{orderPrice}, </if>
+			<if test="orderStatus != null">`order_status` = #{orderStatus}, </if>
+			<if test="deliveryId != null">`delivery_id` = #{deliveryId}, </if>
+			<if test="couponId != null">`coupon_id` = #{couponId}, </if>
+			<if test="couponAmount != null">`coupon_amount` = #{couponAmount}, </if>
+			<if test="payType != null">`pay_type` = #{payType}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="payTime != null">`pay_time` = #{payTime}, </if>
+			<if test="finishedTime != null">`finished_time` = #{finishedTime}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where order_id = #{orderId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_order where order_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_order where order_id in 
+		<foreach item="orderId" collection="array" open="(" separator="," close=")">
+			#{orderId}
+		</foreach>
+	</delete>
+
+</mapper>

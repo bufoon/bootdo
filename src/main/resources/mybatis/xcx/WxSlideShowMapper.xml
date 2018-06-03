@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxSlideShowDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxSlideShowDO">
+		select `slide_show_id`,`slide_show_img`,`slide_show_url`,`slide_show_desc`,`status`,`sort`,`create_time`,`update_time` from t_wx_slide_show where slide_show_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxSlideShowDO">
+		select `slide_show_id`,`slide_show_img`,`slide_show_url`,`slide_show_desc`,`status`,`sort`,`create_time`,`update_time` from t_wx_slide_show
+        <where>  
+		  		  <if test="slideShowId != null and slideShowId != ''"> and slide_show_id = #{slideShowId} </if>
+		  		  <if test="slideShowImg != null and slideShowImg != ''"> and slide_show_img = #{slideShowImg} </if>
+		  		  <if test="slideShowUrl != null and slideShowUrl != ''"> and slide_show_url = #{slideShowUrl} </if>
+		  		  <if test="slideShowDesc != null and slideShowDesc != ''"> and slide_show_desc = #{slideShowDesc} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by slide_show_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_slide_show
+		 <where>  
+		  		  <if test="slideShowId != null and slideShowId != ''"> and slide_show_id = #{slideShowId} </if>
+		  		  <if test="slideShowImg != null and slideShowImg != ''"> and slide_show_img = #{slideShowImg} </if>
+		  		  <if test="slideShowUrl != null and slideShowUrl != ''"> and slide_show_url = #{slideShowUrl} </if>
+		  		  <if test="slideShowDesc != null and slideShowDesc != ''"> and slide_show_desc = #{slideShowDesc} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxSlideShowDO" useGeneratedKeys="true" keyProperty="slideShowId">
+		insert into t_wx_slide_show
+		(
+			`slide_show_img`, 
+			`slide_show_url`, 
+			`slide_show_desc`, 
+			`status`, 
+			`sort`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{slideShowImg}, 
+			#{slideShowUrl}, 
+			#{slideShowDesc}, 
+			#{status}, 
+			#{sort}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxSlideShowDO">
+		update t_wx_slide_show 
+		<set>
+			<if test="slideShowImg != null">`slide_show_img` = #{slideShowImg}, </if>
+			<if test="slideShowUrl != null">`slide_show_url` = #{slideShowUrl}, </if>
+			<if test="slideShowDesc != null">`slide_show_desc` = #{slideShowDesc}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where slide_show_id = #{slideShowId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_slide_show where slide_show_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_slide_show where slide_show_id in 
+		<foreach item="slideShowId" collection="array" open="(" separator="," close=")">
+			#{slideShowId}
+		</foreach>
+	</delete>
+
+</mapper>

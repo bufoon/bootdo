@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.xcx.dao.WxCategoryDao">
+
+	<select id="get" resultType="com.bootdo.xcx.domain.WxCategoryDO">
+		select `cat_id`,`cat_name`,`cat_img`,`cat_sort`,`status`,`deleted`,`remarks`,`create_user`,`update_user`,`create_time`,`update_time` from t_wx_category where cat_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.xcx.domain.WxCategoryDO">
+		select `cat_id`,`cat_name`,`cat_img`,`cat_sort`,`status`,`deleted`,`remarks`,`create_user`,`update_user`,`create_time`,`update_time` from t_wx_category
+        <where>  
+		  		  <if test="catId != null and catId != ''"> and cat_id = #{catId} </if>
+		  		  <if test="catName != null and catName != ''"> and cat_name = #{catName} </if>
+		  		  <if test="catImg != null and catImg != ''"> and cat_img = #{catImg} </if>
+		  		  <if test="catSort != null and catSort != ''"> and cat_sort = #{catSort} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="deleted != null and deleted != ''"> and deleted = #{deleted} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by cat_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_wx_category
+		 <where>  
+		  		  <if test="catId != null and catId != ''"> and cat_id = #{catId} </if>
+		  		  <if test="catName != null and catName != ''"> and cat_name = #{catName} </if>
+		  		  <if test="catImg != null and catImg != ''"> and cat_img = #{catImg} </if>
+		  		  <if test="catSort != null and catSort != ''"> and cat_sort = #{catSort} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="deleted != null and deleted != ''"> and deleted = #{deleted} </if>
+		  		  <if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.xcx.domain.WxCategoryDO">
+		insert into t_wx_category
+		(
+			`cat_id`, 
+			`cat_name`, 
+			`cat_img`, 
+			`cat_sort`, 
+			`status`, 
+			`deleted`, 
+			`remarks`, 
+			`create_user`, 
+			`update_user`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{catId}, 
+			#{catName}, 
+			#{catImg}, 
+			#{catSort}, 
+			#{status}, 
+			#{deleted}, 
+			#{remarks}, 
+			#{createUser}, 
+			#{updateUser}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.xcx.domain.WxCategoryDO">
+		update t_wx_category 
+		<set>
+			<if test="catName != null">`cat_name` = #{catName}, </if>
+			<if test="catImg != null">`cat_img` = #{catImg}, </if>
+			<if test="catSort != null">`cat_sort` = #{catSort}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="deleted != null">`deleted` = #{deleted}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where cat_id = #{catId}
+	</update>
+	
+	<delete id="remove">
+		delete from t_wx_category where cat_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from t_wx_category where cat_id in 
+		<foreach item="catId" collection="array" open="(" separator="," close=")">
+			#{catId}
+		</foreach>
+	</delete>
+
+</mapper>
