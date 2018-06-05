@@ -52,8 +52,6 @@ public class UserApi extends AbstractApi {
         CloseableHttpResponse response = httpclient.execute(httpGet);
         String content = EntityUtils.toString(response.getEntity());
         System.out.println("============================== \n" + content);
-//        restTemplate.setMessageConverters(Arrays.asList(new MappingJackson2HttpMessageConverter()));
-//        WeixinSession weixinSession = restTemplate.getForObject(url, WeixinSession.class);
         WeixinSession weixinSession = JSON.parseObject(content, WeixinSession.class);
         if (!weixinSession.getErrcode().equals(0)){
             return new ApiResponse(-1, "授权失败", "");

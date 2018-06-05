@@ -1,9 +1,19 @@
 package com.bootdo.xcx.api;
 
+import com.bootdo.common.utils.IDWorker;
+import com.bootdo.xcx.api.support.AbstractApi;
 import com.bootdo.xcx.api.support.ApiResponse;
+import com.bootdo.xcx.domain.WxDeliveryDO;
+import com.bootdo.xcx.service.WxDeliveryService;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: bufoon
@@ -13,30 +23,37 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("api/userDelivery")
-public class UserDeliveryApi {
+@Api(value = "用户收获地址接口")
+public class UserDeliveryApi extends AbstractApi {
 
+    @Autowired
+    private WxDeliveryService deliveryService;
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ApiResponse list(){
-
-        return null;
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("userId", WEIXIN_SESSION.get().getUserId());
+        return new ApiResponse(1, "success", deliveryService.list(paramsMap));
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ApiResponse add(){
-
-        return null;
+    public ApiResponse add(WxDeliveryDO wxDeliveryDO){
+        wxDeliveryDO.setDeliveryId(IDWorker.getId());
+        wxDeliveryDO.setCreateTime(new Date());
+        deliveryService.save(wxDeliveryDO);
+        return new ApiResponse(1, "success", null);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ApiResponse update(){
-
-        return null;
+    public ApiResponse update(WxDeliveryDO wxDeliveryDO){
+        wxDeliveryDO.setUpdateTime(new Date());
+        deliveryService.update(wxDeliveryDO);
+        return new ApiResponse(1, "success", null);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ApiResponse delete(){
-
-        return null;
+    public ApiResponse delete(Long deliverId){
+        deliveryService.remove(deliverId);
+        return new ApiResponse(1, "success", null);
     }
 
 
